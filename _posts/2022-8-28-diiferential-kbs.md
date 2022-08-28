@@ -4,7 +4,7 @@ title: Differentiable Knowledge Bases – Question Answering
 ---
 
 This blog post is a dive into one recent work that is based on the idea of a differentiable knowledge base.
-![summary\_picture]({{site.baseurl}}/images/kbqa_blog/summary_picture.jpg)
+![summary_picture]({{site.baseurl}}/images/kbqa_blog/summary_picture.JPG)
 
 The reason this work is interesting is just that – enabling a query on a knowledge base to be differentiable enables us to utilize a machine learning model to be trained end-to-end, from question modeling to answer retrieval. The paper [[1]](https://arxiv.org/abs/2002.06115) is "Scalable Neural Methods For Reasoning With A Symbolic Knowledge Base".
 
@@ -57,13 +57,13 @@ The Reified KB is created by breaking down the knowledge base into 3 matrices: T
 Given a headID and a relationID, how do we transverse to the objectID? This is done according to the following equation:
 
 <p align="center">
-  <img src="https://github.com/sidhantls/sidhantls.github.io/blob/master/images/kbqa_blog/follow_equation.JPG?raw=true" />
+  <img src="{{site.baseurl}}/images/kbqa_blog/follow_equation.JPG" />
 </p>
 
 We first utilize the subject vector _x_, which is one hot encoded. Matrix multiplication is performed between the subject vector _x_ (1 x E) and the subject matrix (E x T) to obtain a vector (1 x E). This operation essentially queries those triplets that have subject in _x_ in their subject. Entries with 1's are triplets containing subject x and 0's are triplets that don't. For _x_, the size is (1 x E) for purpose on this discussion. It actually will be of size (batch\_size x E). This operation is summarized below:
 
 <p align="center">
-  <img src="{{site.baseurl}}/images/kbqa_blog/follow_part1.jpg" alt="drawing" width="700"/>
+  <img src="{{site.baseurl}}/images/kbqa_blog/follow_part1.JPG" alt="drawing" width="700"/>
 </p>
 
 We do the same for the relation. We perform matrix multiplication between relation vector _r_ (1 x R) with the relation matrix (T x R). This essentially queries those triplets containing relation _r_ (T x 1). Then we perform element-wise multiplication between _xM__subj_ and _rM__ rel_ which leads to the selection of those triplets that have the same subjectID and relationID.
@@ -83,7 +83,7 @@ The implementation can be found [here](https://github.com/sidhantls/differentiab
 Here, we utilize the transformer to encode the question similar to this: For 1 hop questions, we predict the relation sing a linear layer, given the latent question representation. We obtain a probability distribution of relations by utilizing a Softmax activation function. This is now the relation vector that we utilize to perform the following operation outlined above. After the "follow" operation is performed, we obtain the object ids that belong to the answer. The objective function used is binary cross-entropy, similar to this work. This entire pipeline is summarized in the figure below:
 
 <p align="center">
-  <img src="{{site.baseurl}}/images/kbqa_blog/training_pipeline.jpg" alt="training" width="800"/>
+  <img src="{{site.baseurl}}/images/kbqa_blog/training_pipeline.JPG" alt="training" width="800"/>
 </p>
 
 When testing this model, there was a key observation that limits its practical use as it is. When tested on unanswerable questions, this model provided outputs by predicting "starred in" relationships- [Code](https://github.com/sidhantls/differentiable-kb-qa/blob/f5b3be755c767ebdce67f1cbe2e6ebdefa64a6df/kgqa/models/test_predict.ipynb). To enable this model's use in a practical setting, we would also somehow have to handle unanswerable questions.
