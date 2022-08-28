@@ -6,7 +6,7 @@ title: Differentiable Knowledge Bases – Question Answering
 This blog post is a dive into one recent work that is based on the idea of a differentiable knowledge base.
 ![summary_picture]({{site.baseurl}}/images/kbqa_blog/summary_picture.JPG)
 
-The reason this work is interesting is just that – enabling a query on a knowledge base to be differentiable enables us to utilize a machine learning model to be trained end-to-end, from question modeling to answer retrieval. The paper [[1]](https://arxiv.org/abs/2002.06115) is "Scalable Neural Methods For Reasoning With A Symbolic Knowledge Base". This blog also has an accompanying code implementation.
+The reason this work is interesting is just that – enabling a query on a knowledge base to be differentiable enables us to utilize a machine learning model to be trained end-to-end, from question modeling to answer retrieval. The paper [[1]](https://arxiv.org/abs/2002.06115) is "Scalable Neural Methods For Reasoning With A Symbolic Knowledge Base". The blog also has an accompanying code implementation.
 
 This work has applications in enabling factual question and answering systems such as Alexa and Siri. For example, factual questions such as "How tall is Barack Obama" or "Who starred in Forest Gump", require access to factual information.  
 
