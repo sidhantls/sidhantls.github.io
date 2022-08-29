@@ -105,7 +105,7 @@ The training scripts and metrics are in the repo. The metrics on the [MetaQA](ht
 | 3-hop       | 0.821       |
 
 #### Codebase 
-This implementation: [Repo](https://github.com/sidhantls/differentiable-kb-qa)
+This implementation: [Repo](https://github.com/sidhantls/differentiable-kb-qa)  
 Google's Offical implementation: [Repo](https://github.com/google-research/language/tree/master/language/nql/nql)
 
 ## Interesting Following Work
