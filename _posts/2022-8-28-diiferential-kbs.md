@@ -76,11 +76,11 @@ This is just a summary of a key method proposed in the paper. Refer to the paper
 
 ### The Implementation
 
-The implementation can be found [here](https://github.com/sidhantls/differentiable-kb-qa/blob/ed040f01813ebc0e109a771af14e8e47be79a6d7/kgqa/models/models_nhop.py#L70). This implements the key aspects of the reified KB and the model training, but it's not an exact replication- this implementation utilizes a transformer-based question encoder, as opposed to word2vec.
+The custom implementation can be found [here](https://github.com/sidhantls/differentiable-kb-qa/blob/ed040f01813ebc0e109a771af14e8e47be79a6d7/kgqa/models/models_nhop.py#L70). This implements the key aspects of the reified KB and the model training, but it's not an exact replication- this implementation utilizes a transformer-based question encoder, as opposed to word2vec.
 
 #### Single Hop
 
-Here, we utilize the transformer to encode the question similar to this: For 1 hop questions, we predict the relation sing a linear layer, given the latent question representation. We obtain a probability distribution of relations by utilizing a Softmax activation function. This is now the relation vector that we utilize to perform the following operation outlined above. After the "follow" operation is performed, we obtain the object ids that belong to the answer. The objective function used is binary cross-entropy, similar to this work. This entire pipeline is summarized in the figure below:
+Here, we utilize the transformer to encode the question similar to this: For 1 hop questions, we predict the relation using a linear layer, given the latent question representation. We obtain a probability distribution of relations by utilizing a Softmax activation function. This is now the relation vector that we utilize to perform the following operation outlined above. After the "follow" operation is performed, we obtain the object ids that belong to the answer. The objective function used is binary cross-entropy, similar to this work. This entire pipeline is summarized in the figure below:
 
 <p align="center">
   <img src="{{site.baseurl}}/images/kbqa_blog/training_pipeline.JPG" alt="training" width="800"/>
