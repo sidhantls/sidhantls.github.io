@@ -70,7 +70,7 @@ The model was evaluated on different train-test splits and the results were aver
 
 ## Findings 
 
-The output of the middle encoder block (block 14 out of 24) of OpenAI whisper (medium.en) produces reasonably rich features for speaker prediction on this dataset. It results in a F1 score of 93%. Using this hidden state is better in comparison to using the 1st, 2nd, and the last. Using the output of the 1st and 2nd encoder blocks result in poor performance (80% F1 score) with heavy overfitting. Using the last encoder output also works but performs slightly worse than using the middle block. Interestingly, when using the small.en model instead, the 2nd encoder block produces the more optimal audio features for this task compared to using the middle and last.
+The output of the middle encoder block (block 14 out of 24) of OpenAI whisper (medium.en) produces reasonably rich features for speaker prediction on this dataset. It results in a F1 score of 93%. Using this hidden state is better in comparison to using the 1st, 2nd, and the last. Using the output of the 1st and 2nd encoder blocks result in poor performance (80% F1 score) with heavy overfitting. These metrics can be found in the training [notebook](https://github.com/sidhantls/lexpod-speaker-prediction/blob/master/speaker_prediction/train_speaker_prediction.ipynb). Using the last encoder output also works but performs slightly worse than using the middle block. Interestingly, when using the small.en model instead, the 2nd encoder block produces the more optimal audio features for this task compared to using the middle and last.
 
 To summarize the metrics, a F1-score of 93% and an error rate of 5.8% was achieved on the speaker prediction task using the output of the middle encoder block of Whisper. However, there is overfitting (train F1-score of 98.8%, error rate of 0.9%) and the standard deviation of the precision and recall across train-test splits is higher than expected (~4%). This could be mitigated with more training data.
 
@@ -94,7 +94,7 @@ In spite of the reasonable performance of using zero-shot audio features from Wh
 ## Ending Note
 There clearly might be more optimal methods to perform speaker prediction other than using the heavy Whisper model. This blog post is an exploration of how to utilize Whisper's hidden states for a different task and how useful this can be. 
   
-Feel free to share your thoughts and feedback. 
+Feel free to share your thoughts or feedback. 
   
 
 
