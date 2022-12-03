@@ -9,7 +9,7 @@ I’m Sidhant and this my blog. I explore a range of research topics and project
 I currently work at [getedge.ai](https://getedge.ai/), on enhancing talent acquisition and workforce management using machine learning. I work on concepts such as language modelling, entity linking, and knowledge graphs. 
   
   
-Feel free to reach out to me by email for any questions or feedback on the blogs  
+Feel free to reach out for any questions or feedback 
 
 ### Contact me
 
