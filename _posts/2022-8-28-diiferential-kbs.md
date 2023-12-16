@@ -6,11 +6,11 @@ title: Differentiable Faithful Question Answering
 A deep dive into a differentiable knowledge base architecture for faithful question-answering 
 ![summary_picture]({{site.baseurl}}/images/kbqa_blog/summary_picture.JPG)
 
-To enable question-answering, knowledge bases are commonly made differentiable through knowledge graph embeddings but they are not faithful to the knowledge base. A faithful question-answering system ensures that the answers it generates are consistent with the underlying knowledge base and faithfully represent the information contained within it.  This work [[1]],(https://arxiv.org/abs/2002.06115) proposes an architecture of a differentiable knowledge base, called Reified KB, which enables a language model to faithfully query a knowledge base for answers. 
+To enable question-answering, knowledge bases are commonly made differentiable through knowledge graph embeddings but they are not faithful to the knowledge base. A faithful question-answering system ensures that the answers it generates are consistent with the underlying knowledge base and faithfully represent the information contained within it.  This work [[1](https://arxiv.org/abs/2002.06115)] proposes an architecture of a differentiable knowledge base, called Reified KB, which enables a language model to faithfully query a knowledge base for answers. 
 
 This work has applications in enabling factual question and answering systems such as Alexa and Siri. For example, factual questions such as "How tall is Barack Obama" or "Who starred in Forest Gump", require access to factual information. 
 
-This typically involves a querying system (LMs, Semantic Parsers+Query Generation) to interact with a factual knowledge database to retrieve answers. This factual information is typically stored in knowledge bases as triplets. This is sometimes referred to as a knowledge graph. Let's introduce the format of this knowledge base. If you already know these fundamentals, skip the below section. 
+This typically involves a querying system (eg. LMs, Semantic Parsers+Query Generation) to interact with a factual database to retrieve answers. For knowledge graph-based approaches, this factual information is typically stored in knowledge bases as triplets. Let's introduce the format of this knowledge base. If you already know these fundamentals, skip the below section. 
 
 ## Knowledge Bases
 Knowledge bases are databases of triplets containing factual information in the form of triplets. Triplets contain 3 items, a subject (also called the head), an object (also called the tail) and the relation (label of how the subject is related to the object). The items in the subjects and objects are called entities. These are examples of triplets:
