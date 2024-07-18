@@ -12,12 +12,12 @@ Accompanying code:
 - [GitHub](https://github.com/sidhantls/lexpod-speaker-prediction)
 - [Google Colab](https://colab.research.google.com/drive/13U6OLMHUo3mo8RhKAvTcVEbroAsQsEx3?usp=sharing)
 
-
 This work is motivated by Andrej Karpathy's Lexicap project, which he shares in this twitter [thread](https://twitter.com/karpathy/status/1574474950416617472). He transcribed Lex Fridman podcasts using OpenAI Whisper. 
-  
+
+## TL;DR
+Experiments revealed that despite Whisper's design to capture speaker-invariant features for speech-to-text tasks, its hidden states can be repurposed for speaker identification. By using these hidden states as zero-shot audio features, a classifier can effectively predict whether Lex is speaking, with the 14th out of 24 encoder layers in the medium.en model proving the most effective, achieving a 93% F1 score. This suggests that Whisper's encoder captures speaker-specific patterns and provides representative features for speaker identification. However, being a speech-to-text model, it's also possible that the model performs well because its hidden states have implicitly captured common words used by Lex and not just speaker-specific acoustic features.
 
 ## OpenAI Whisper 
-
 Whisper is a transformer-based model trained to perform multilingual speech recognition. Apart from speech recognition, it was also trained to perform speech translation and language identification. The key question here is if this robust model can be used to generate zero-shot audio features suitable for a classifier to perform speaker prediction. 
 
 ## Approach 
