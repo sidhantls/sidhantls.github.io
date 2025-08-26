@@ -19,7 +19,7 @@ Cross-attention steering (CA-Steer) modifies the hidden states inside diffusion 
 ### 2.1 Prompt dataset creation
 We start by defining two sets of prompts: positive prompts that contain the target attribute and a baseline prompt without it. Using these pairs of prompts, we collect activation data from the diffusion model. 
 
-```
+```text
 Attribute: "Cinematic shot of a horse, metallic-chrome sculpture, 4K detail"
 Baseline:  "Cinematic shot of a horse, 4K detail"
 ```
@@ -32,7 +32,7 @@ Given a dataset of pairs of prompts, we want to cache activations related to the
 The cross attention output is of shape (2, L, dim) for SDXL, representing (unconditional/conditional axis, sequence length, dim). For vector steering, we take the conditional portion and average across L to get a vector for the positive attribute. 
 
 Implementation-wise, we can use hooks to record inputs/outputs of any layer. So first, we find cross attention layers using:
-```
+```python
 targets = []
 for name, m in unet.named_modules():
     if getattr(m, "is_cross_attention", False):
@@ -40,7 +40,7 @@ for name, m in unet.named_modules():
 ```
 
 Then, create a hook that just records cross attention outputs implemented [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L12). Below is a simplified version:
-```
+```python
 class SteeringHooks:
     """
     Registers on cross-attn blocks. Either:
