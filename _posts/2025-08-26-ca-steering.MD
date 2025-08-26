@@ -96,21 +96,30 @@ In practice, we perform a re-normalization to ensure we affect only the directio
 - **Alpha:** Sweep of steering strength was used
 
 ### 3.2 Metallic and Anime Steering
-![Figure 1: Castle with metallic steering]({{site.baseurl}}/images/vector_steering/results/metal_experiments/plots_output/gen_08_comparison.png)
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/metal_experiments/plots_output/gen_08_comparison.png" alt="drawing"/>
+</p>
 
 *Figure 1: Castle with metallic steering vector, prompt: “Epic fantasy castle on top of a mountain, clouds swirling around, dramatic lighting.”*
 
-<!-- ![Figure 2: Cat sketch with metallic steering]({{site.baseurl}}/images/vector_steering/results/metal_experiments/plots_output/gen_11_comparison.png)
+<!-- 
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/metal_experiments/plots_output/gen_11_comparison.png" alt="drawing"/>
+</p>
+*Figure 2: Cat sketch with metallic steering vector, prompt: “Minimalist black-and-white sketch of a cat stretching.”* 
+-->
 
-*Figure 2: Cat sketch with metallic steering vector, prompt: “Minimalist black-and-white sketch of a cat stretching.”* -->
-
-![Figure 2: Batman close-up in anime style]({{site.baseurl}}/images/vector_steering/results/anime_experiments/plots_output/gen_02_comparison.png)
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/anime_experiments/plots_output/gen_02_comparison.png" alt="drawing"/>
+</p>
 
 *Figure 2: Batman close-up using anime steering vector, prompt: “Cinematic close-up of Batman's face, dramatic shadows across the cowl, ultra-detailed, 4K.”*
 
 While increasing the steering strength can enhance the desired attribute, it often affects the overall image structure as well. For example, in the dog generation below, higher steering weights not only intensify the anime style but also alter the dog's posture.
 
-![Figure 3: Dog in anime style]({{site.baseurl}}/images/vector_steering/results/anime_experiments/plots_output/gen_03_comparison.png)
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/anime_experiments/plots_output/gen_03_comparison.png" alt="drawing"/>
+</p>
 *Figure 3: Dog in anime style, prompt: “Close-up of a labrador sitting.”*
 
 ### 3.3 Composing Attributes
@@ -135,10 +144,14 @@ Baseline:  "Close-up of Mickey Mouse’s face, neutral expression, cartoon style
 
 Below are two composite examples where anime style is blended with happiness:
 
-![Figure 4: Dog with composed anime and happiness steering vectors]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_03_comparison.png)
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_03_comparison.png" alt="drawing"/>
+</p>
 *Figure 4: Dog with composed anime and happiness steering vectors, prompt: “Close-up of a labrador sitting.”*
 
-![Figure 5: Cat with composed anime and happiness steering vectors]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png)
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png" alt="drawing"/>
+</p>
 *Figure 5: Cat with composed anime and happiness steering vectors, prompt: “Minimalist black-and-white sketch of a cat stretching.”*
 
 
@@ -152,10 +165,14 @@ In the diffusion process, Gaussian noise is gradually added until the data are n
 
 Motivated by this, I experimented with withholding steering until the 3rd diffusion step, to better preserve the original structure. This approach may require adjusting the steering strength. As shown in Figures 2 and 3, delaying steering helps maintain the initial composition more effectively compared to Figures 6 and 7.
 
-![Figure 6: Dog in anime style]({{site.baseurl}}/images/vector_steering/results/last_2%20steps/plots_output/gen_03_comparison.png)
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/last_2%20steps/plots_output/gen_03_comparison.png" alt="drawing"/>
+</p>
 *Figure 6: Dog using anime steering vector, steering only after first 2 diffusion steps, prompt: “Close-up of a labrador sitting.”* 
 
-![Figure 7: Batman close-up in anime style]({{site.baseurl}}/images/vector_steering/results/last_2%20steps/plots_output/gen_02_comparison.png)
+<p align="center">
+  <img src="{{site.baseurl}}/images/vector_steering/results/last_2%20steps/plots_output/gen_02_comparison.png" alt="drawing"/>
+</p>
 *Figure 7: Batman close-up using anime steering vector, steering only after first 2 diffusion steps, prompt: “Cinematic close-up of Batman's face, dramatic shadows across the cowl, ultra-detailed, 4K.”*
 
 ### 4.2 Improving Efficiency
