@@ -1,4 +1,7 @@
-# Attribute Steering in Stable Diffusion: A Hands-On Guide
+---
+layout: post
+title: "Attribute Steering in Stable Diffusion: A Hands-On Guide"
+---
 Implementing with CA-Steer: from using simple hooks to experiments to improve generation stability 
 
 ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png)
