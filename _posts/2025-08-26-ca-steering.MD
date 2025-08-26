@@ -57,9 +57,9 @@ class SteeringHooks:
         steer_vectors = [] 
 
     def hook_fn(self, module, inputs, x_seq):
-        if in cache collection mode:
+        self.step += 1
+        if in cache collection mode: # collect activations
             self.cache.append(x_seq[1, :, :].mean(0).detach().cpu()[None, None, :])
-            self.step += 1
             return x_seq # return output unchanged
 
         if applying steering vectors: 
