@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Attribute Steering in Stable Diffusion: A Hands-On Guide"
+title: "Attribute Vector Steering in Stable Diffusion: A Hands-On Guide"
 ---
 Controlable Generation with CASteer, from using simple hooks to experiments to improve generation stability.
 ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png)
@@ -71,9 +71,11 @@ class SteeringHooks:
 After the cache collection step, we'd have two tensors of shape (num prompts, num_diffusion_steps, num_layers, dim): one that has cached activations from the positive attribute and one from the negative. 
 
 The steering vector is defined as the difference between the average hidden activations of the positive and baseline prompts:  
+{% raw %}
 $$
 v = \frac{1}{N} \sum_{i=1}^N h(x_i^{+}) - \frac{1}{M} \sum_{j=1}^M h(x_j^{-})
 $$
+{% endraw %}
 
 where \(h(x)\) is the activation of prompt \(x\) at the chosen layer, \(x_i^{+}\) are positive prompts, and \(x_j^{-}\) are baseline prompts.  
 This vector \(v\) represents the “direction” in activation space corresponding to the target attribute ([Meng et al., 2025](https://arxiv.org/abs/2503.09630)).
