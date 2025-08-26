@@ -3,10 +3,9 @@ layout: post
 title: "Attribute Steering in Stable Diffusion: A Hands-On Guide"
 ---
 Implementing with CA-Steer: from using simple hooks to experiments to improve generation stability 
+![summary_picture]({{site.baseurl}}/images/lexpod_blog/overview.png)
 
 <!-- ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png) -->
-
-![summary_picture]({{site.baseurl}}/images/lexpod_blog/overview.png)
 
 This post presents a hands-on exploration of attribute steering in Stable Diffusion using CA-Steer, detailing both implementation steps and experiments. The objective is to give you a clear view of the underlying implementation details so you can tweak and experiment with the method yourself, similar to what we'll walk through here. It demonstrates how to construct and apply steering vectors, investigates approaches to improve generation stability and efficiency, and composes multiple attributes.
 
