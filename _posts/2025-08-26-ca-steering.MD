@@ -3,7 +3,7 @@ layout: post
 title: "Attribute Steering in Stable Diffusion: A Hands-On Guide"
 ---
 An exploration of re-purposing OpenAI's Whisper model to perform speaker prediction on Lex Fridman podcasts.
-![summary_picture]({{site.baseurl}}/images/lexpod_blog/overview.png)
+![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png)
 
 <!-- Implementing with CA-Steer: from using simple hooks to experiments to improve generation stability.
 ![summary_picture]({{site.baseurl}}/images/lexpod_blog/overview.png) -->
