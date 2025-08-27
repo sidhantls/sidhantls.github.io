@@ -92,10 +92,11 @@ At the end of this process, we obtain steering vectors for each cross-attention 
 
 ### 2.4 Applying Steering Vectors
 During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the hidden activations by adding or subtracting a scaled version of \(v\):  
-
+{% raw %}
 $$
    h'(x) = h(x) + \alpha v
 $$
+{% endraw %}
 
 In practice, we perform a re-normalization to ensure we affect only the direction of the vector and not its magnitude, as shown [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L69).
 
