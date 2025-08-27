@@ -10,7 +10,7 @@ Controlable Generation with CASteer, from using simple hooks to experiments to i
 
 <!-- ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png) -->
 
-This post presents a hands-on exploration of attribute steering in Stable Diffusion using CA-Steer ([Gaintseva et al., 2025](https://arxiv.org/abs/2503.09630)), detailing both implementation steps and experiments. This will go through the underlying implementation details so one can tweak and experiment with the method on their own. It demonstrates how to construct and apply steering vectors, investigates approaches to improve generation stability and efficiency, and composes multiple attributes.
+This post presents a hands-on exploration of attribute steering in Stable Diffusion using CASteer ([Gaintseva et al., 2025](https://arxiv.org/abs/2503.09630)), detailing both implementation steps and experiments. This will go through the underlying implementation details so one can tweak and experiment with the method on their own. It demonstrates how to construct and apply steering vectors, investigates approaches to improve generation stability and efficiency, and composes multiple attributes.
 
 Accompanying code:
 * [GitHub](https://github.com/sidhantls/minimal-casteer)
@@ -32,12 +32,12 @@ Dataset size is usually 50 pairs of positive and negative prompts showcasing the
 
 ### 2.2 Cache Cross Attention Outputs
 Given a dataset of pairs of prompts, we want to cache activations related to the positive prompt and negative prompt. For each pair of prompts, we cache one vector derived from the cross attention output. 
-Figure 1 below shows the architecture of the SD 1.5 Generation Pipeline (adapted from this (blog)[https://towardsdatascience.com/the-arrival-of-sdxl-1-0-4e739d5cc6c7/]), with annotations indicating where vector steering is integrated into the process. 
+The figure below shows the architecture of the SD 1.5 Generation Pipeline, with annotations indicating how vector steering is integrated into the process. 
 
 <p align="center">
   <img src="{{site.baseurl}}/images/vector_steering/architecture.png" alt="SDXL Architecture with Vector Steering"/>
 </p>
-*Figure 1: Architecture of integrating vector steering into the diffusion pipeline (SD 1.5 pipeline from Demir's (blog)[https://towardsdatascience.com/the-arrival-of-sdxl-1-0-4e739d5cc6c7/]).*
+*Figure: Architecture of integrating vector steering into the diffusion pipeline (SD 1.5 pipeline from Demir's [blog](https://towardsdatascience.com/the-arrival-of-sdxl-1-0-4e739d5cc6c7/)).*
 
 The cross attention output is of shape (2, L, dim) for SDXL, representing (unconditional/conditional axis, sequence length, dim). For vector steering, we take the conditional portion and average across L to get a vector for the positive attribute. 
 
@@ -47,33 +47,36 @@ pipe = StableDiffusionXLPipeline.from_pretrained("stabilityai/stable-diffusion-x
 
 targets = []
 for name, m in pipe.unet.named_modules():
-    if getattr(m, "is_cross_attention", False):
-        targets.append((name, m))
+  if getattr(m, "is_cross_attention", False):
+    targets.append((name, m))
 ```
 
 Then, create a hook that just records cross attention outputs implemented [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L12). Below is a simplified version:
 ```python
+```python
 class SteeringHooks:
-    """
-    Registers on cross-attn blocks. Either:
-      (A) Records activations into .cache 
-      (B) Applies provided steering vectors when steer_vectors is a tensor
-    """
-    def __init__(self, args):
-        # Add required params
-        self.cache = []  
-        steer_vectors = [] 
+  """
+  Registers on cross-attn blocks. Either:
+    (A) Records activations into .cache
+    (B) Applies provided steering vectors
+  """
+  def __init__(self, args):
+    self.cache = []
+    self.steer_vectors = []
+    self.step = 0 # current diffusion step
 
-    def hook_fn(self, module, inputs, x_seq):
-        self.step += 1
-        if in cache collection mode: # collect activations
-            self.cache.append(x_seq[1, :, :].mean(0).detach().cpu()[None, None, :])
-            return x_seq # return output unchanged
+  def hook_fn(self, module, inputs, x_seq):
+    self.step += 1
+    if self.in_cache_collection_mode:  # collect activations
+      self.cache.append(x_seq[1, :, :].mean(0).detach().cpu()[None, None, :])
+      return x_seq  # return output unchanged
 
-        if applying steering vectors: 
-            # Bias cross attention output with steering vector
-            return steer_vectors[self.step] + x_seq
+    if self.applying_steering_vectors:
+      # Bias cross attention output with steering vector
+      return self.steer_vectors[self.step] + x_seq
 ```
+
+The official implementation is super useful as well, but takes a different approach to collecting activations - they do it by re-writing the cross attention logic and integrating it in, as shown (here)[https://github.com/Atmyre/CASteer/blob/f336576790144ce55fb6afeecf76169374e5c9e4/controller.py#L116]
 
 ### 2.3 Calculate steering vectors
 After the cache collection step, we'd have two tensors of shape (num prompts, num_diffusion_steps, num_layers, dim): one that has cached activations from the positive attribute and one from the negative. 
@@ -176,7 +179,7 @@ This approach allows flexible composition of multiple attributes by adjusting `m
 ### 4.1 Improving Stability 
 I noticed that quite often the image structure changes, instead of just the attribute, when steering strength increases. This is evident in Figure 2 and arguably also in Figure 3. 
 
-In the diffusion process, Gaussian noise is gradually added until the data are nearly destroyed. This means that the reverse process necessarily reconstructs the global frame before fine-grained attributes. So early diffusion steps generate the structure. 
+In the diffusion process, Gaussian noise is gradually added until the data are nearly destroyed ([Ho et al., 2020](https://arxiv.org/abs/2006.11239)). This means that the reverse process necessarily reconstructs the global frame before fine-grained attributes. Therefore, early diffusion steps likely generates the structure. 
 
 Motivated by this, I experimented with withholding steering until the 3rd diffusion step, to better preserve the original structure. This approach may require adjusting the steering strength. As shown in Figures 2 and 3, delaying steering helps maintain the initial composition more effectively compared to Figures 6 and 7.
 
@@ -203,4 +206,7 @@ Experiments revealed that late-stage steering, even with higher strengths, resul
 
 ## References
 Gaintseva, T., Ma, C., Liu, Z., Benning, M., Slabaugh, G., Deng, J., & Elezi, I. (2025). CASteer: Steering diffusion models for controllable generation. arXiv. https://arxiv.org/abs/2503.09630
+
 Demir, E. (2023, August 2). The arrival of SDXL 1.0: Introducing SDXL 1.0: Understanding the diffusion models. Towards Data Science. https://towardsdatascience.com/the-arrival-of-sdxl-1-0-4e739d5cc6c7
+
+Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. arXiv. https://arxiv.org/abs/2006.11239
