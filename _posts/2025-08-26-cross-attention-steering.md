@@ -2,7 +2,7 @@
 layout: post
 title: "Attribute Vector Steering in Stable Diffusion: A Hands-On Guide"
 ---
-Controlable Generation with CASteer, from using simple hooks to experiments to improve generation stability.
+Controlable image generation with CASteer, from using simple hooks to experiments to improve generation stability.
 ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png)
 
 <!-- Implementing with CA-Steer: from using simple hooks to experiments to improve generation stability.
