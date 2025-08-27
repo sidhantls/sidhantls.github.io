@@ -172,7 +172,7 @@ This approach allows flexible composition of multiple attributes by adjusting `m
 ## 3 Experiments
 ### 3.1 Improving Stability 
 #### Via Diffusion Steps 
-I noticed that quite often the image structure changes, instead of just the attribute, when steering strength increases. This is evident in Figure 2 and possibly also in Figure 3. 
+I noticed that quite often the image structure changes, instead of just the attribute, when steering strength increases. This is evident in Figure 3 and possibly also in Figure 2. 
 
 In the diffusion process, Gaussian noise is gradually added until the data are nearly destroyed ([Ho et al., 2020](https://arxiv.org/abs/2006.11239)). This means that the reverse process necessarily reconstructs the global frame before fine-grained attributes. Therefore, early diffusion steps likely generate the structure. 
 
