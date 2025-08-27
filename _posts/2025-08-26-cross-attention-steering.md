@@ -53,7 +53,6 @@ for name, m in pipe.unet.named_modules():
 
 Then, create a hook that just records cross attention outputs implemented [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L12). Below is a simplified version:
 ```python
-```python
 class SteeringHooks:
   """
   Registers on cross-attn blocks. Either:
