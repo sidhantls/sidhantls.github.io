@@ -14,7 +14,7 @@ This post presents a hands-on exploration of attribute steering in Stable Diffus
 
 Accompanying code:
 * [GitHub](https://github.com/sidhantls/minimal-casteer)
-* Google Colab
+* [Google Colab](https://drive.google.com/file/d/1bRNl1sU0iF9nyxEsDbJxXwB5-S9mnm3I/view?usp=sharing)
 
 
 ## 2 Method
@@ -176,6 +176,7 @@ This approach allows flexible composition of multiple attributes by adjusting `m
 
 ## 4 Experiments
 ### 4.1 Improving Stability 
+#### Via Diffusion Steps 
 I noticed that quite often the image structure changes, instead of just the attribute, when steering strength increases. This is evident in Figure 2 and arguably also in Figure 3. 
 
 In the diffusion process, Gaussian noise is gradually added until the data are nearly destroyed ([Ho et al., 2020](https://arxiv.org/abs/2006.11239)). This means that the reverse process necessarily reconstructs the global frame before fine-grained attributes. Therefore, early diffusion steps likely generates the structure. 
@@ -192,12 +193,18 @@ Motivated by this, I experimented with withholding steering until the 3rd diffus
 </p>
 *Figure 7: Batman close-up using anime steering vector, steering only after first 2 diffusion steps, prompt: “Cinematic close-up of Batman's face, dramatic shadows across the cowl, ultra-detailed, 4K.”*
 
+#### Via Layers Steered
+Apart from addressing stability by delaying the addition of steering vectors, another approach can be to apply steering vectors to only a fraction of the cross-attention layers. Ablation E in the CASteer [paper](https://arxiv.org/pdf/2503.09630) demonstrates that this can be an effective way to target image attributes rather than overall image composition. In particular, they found that applying steering to the last 36 cross-attention layers of SDXL ("up" block layers) strikes a good balance of attribute influence and global image composition. 
+
+Feel free to experiment with this. It'll only require doing an additional check before adding a steering vector hook: [here](https://github.com/sidhantls/minimal-casteer/blob/4ba0cad7b40bb2f5a4790f61959096488840ed2e/steering.py#L107)
+
+
 ### 4.2 Improving Efficiency
 In order to reduce diffusion latency, I explored whether we can leverage diffusion replay caching. In this, we can iterate on the image for the first N/2 diffusion steps and only then apply the steering vector. If this works, then for an adaptive use-case, where we need to run multiple versions of the image with different strengths, we can re-use the diffusion output of the N/2th step and then, as the strength changes, we only perform N/2 diffusion steps instead of N. This can improve diffusion latency by 50%, compared to running all N steps with the updated strength. 
 
 Experiments revealed that late-stage steering, even with higher strengths, resulted in the same outputs. It appears that without early intervention, such as from the third step in section 4.1, the steering vector’s influence is diminished, limiting its effectiveness in attribute styling.
 
-## 4 Insights:
+## 5 Closing Insights:
 * Normalizing steering vectors is crucial to influence the attribute direction. Try experimenting with removing that and renormalization [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L288) and [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L70).
 * Increasing steering strength enhances attributes but may impact global composition. 
 * Applying steering vectors only after the initial two diffusion steps can help maintain the global image structure.
