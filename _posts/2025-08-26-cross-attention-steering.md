@@ -93,9 +93,9 @@ where $h(x)$ is the activation of prompt $x$ at the chosen layer, $x_i^{+}$ are 
 At the end of this process, we obtain steering vectors for each cross-attention layer, shaped as (num diffusion, dim).  
 
 ### 1.4 Applying Steering Vectors
-Now that we have a vector capturing the “direction” of the attribute, the idea is simple to guide the model during generation by nudging its hidden states along that direction. Pushing in the positive direction strengthens the attribute, while pushing in the negative direction suppresses it.  
+Now that we have a vector capturing the “direction” of the attribute, the idea is to guide the model during generation by nudging its hidden states along that direction. Pushing in the positive direction strengthens the attribute, while pushing in the negative direction suppresses it.  
 
-During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the hidden activations by adding or subtracting a scaled version of $v$:  
+During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the cross-attention activations by adding or subtracting a scaled version of $v$:  
 {% raw %}
 $$
    h'(x) = h(x) + \alpha v
