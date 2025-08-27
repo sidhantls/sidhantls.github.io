@@ -105,7 +105,7 @@ In practice, we perform a renormalization to ensure we affect only the direction
 - **Number of diffusion steps:** 20
 - **Guidance scale:** 5
 - **Seed:** 1
-- **Alpha:** Sweep of steering strength was used
+- **Alpha:** Sweep of steering strengths
 
 ### 3.2 Metallic and Anime Steering
 <p align="center">
@@ -127,7 +127,7 @@ In practice, we perform a renormalization to ensure we affect only the direction
 
 *Figure 2: Batman close-up using anime steering vector, prompt: “Cinematic close-up of Batman's face, dramatic shadows across the cowl, ultra-detailed, 4K.”*
 
-While increasing the steering strength can enhance the desired attribute, it often affects the overall image structure as well. For example, in the dog generation below, higher steering weights not only intensify the anime style but also alter the dog's posture.
+While increasing the steering strength can enhance the desired attribute, it often affects the overall image structure as well. For example, in the dog generation below, higher steering weights not only intensify the anime style but also alter the dog's posture. These results can be reproduced with this [notebook](https://github.com/sidhantls/minimal-casteer/blob/main/tutorial.ipynb)
 
 <p align="center">
   <img src="{{site.baseurl}}/images/vector_steering/results/anime_experiments/plots_output/gen_03_comparison.png" alt="drawing"/>
@@ -167,7 +167,7 @@ Below are two composite examples where anime style is blended with happiness:
 *Figure 5: Cat with composed anime and happiness steering vectors, prompt: “Minimalist black-and-white sketch of a cat stretching.”*
 
 
-This approach allows flexible composition of multiple attributes by adjusting `merge_alpha`.
+This approach allows flexible composition of multiple attributes by adjusting `merge_alpha`. These results can be reproduced with this [notebook](https://github.com/sidhantls/minimal-casteer/blob/main/tutorial_composition.ipynb).
 
 ## 4 Experiments
 ### 4.1 Improving Stability 
