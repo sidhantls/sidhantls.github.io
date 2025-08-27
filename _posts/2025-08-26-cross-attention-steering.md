@@ -106,7 +106,7 @@ In practice, we perform a re-normalization to ensure we affect only the directio
 ## 3 Results: 
 ### 3.1 Hyper Parameters: 
 - **Model:** SDXL (`stabilityai/stable-diffusion-xl-base-1.0`)
-- **Number of prompt pairs:** 20
+- **Number of prompt paidrs:** 20 ([prompts](https://github.com/sidhantls/minimal-casteer/blob/main/prompt_catalog.py))
 - **Number of diffusion steps:** 20
 - **Guidance scale:** 5
 - **Seed:** 1
