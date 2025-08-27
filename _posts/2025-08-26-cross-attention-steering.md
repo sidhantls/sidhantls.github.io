@@ -191,7 +191,7 @@ Motivated by this, I experimented with withholding steering until the 3rd diffus
 #### Via Layer Selection
 Apart from addressing stability by delaying the addition of steering vectors, another approach can be to apply steering vectors to only a fraction of the cross-attention layers. Ablation E in the CASteer [paper](https://arxiv.org/pdf/2503.09630) demonstrates that this can be an effective way to target image attributes rather than overall image composition. In particular, they found that applying steering to the last 36 cross-attention layers of SDXL ("up" block layers) strikes a good balance of attribute influence and global image composition. 
 
-Feel free to experiment with this. It'll only require doing an additional check before adding a steering vector hook: [here](https://github.com/sidhantls/minimal-casteer/blob/4ba0cad7b40bb2f5a4790f61959096488840ed2e/steering.py#L107)
+Feel free to experiment with this. It'll only require doing an additional check before adding a steering vector hook: [here](https://github.com/sidhantls/minimal-casteer/blob/4ba0cad7b40bb2f5a4790f61959096488840ed2e/steering.py#L108)
 
 
 ### 4.2 Improving Efficiency
