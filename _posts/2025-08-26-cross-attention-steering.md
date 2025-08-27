@@ -78,20 +78,19 @@ class SteeringHooks:
 
 The official implementation is super useful as well, but takes a different approach to collecting activations - they do it by rewriting the cross attention logic and integrating it in, as shown [here](https://github.com/Atmyre/CASteer/blob/f336576790144ce55fb6afeecf76169374e5c9e4/controller.py#L116)
 
-### 1.3 Calculate steering vectors
-After the cache collection step, we'd have two tensors of shape (num prompts, num_diffusion_steps, num_layers, dim): one that has cached activations from the positive attribute and one from the negative. 
+### 1.3 Calculate Steering Vector
+The idea here is to capture the “essence” of an attribute by seeing how it changes the model’s hidden states compared to a neutral baseline. If we know what adding “anime” (vs. not adding it) does to the activations, the difference gives us a direction we can later push the model along.  
 
-The steering vector is defined as the difference between the average hidden activations of the positive and baseline prompts:  
+Formally, the steering vector is defined as the difference between the average hidden activations of the positive and baseline prompts:  
 {% raw %}
 $$
 v = \frac{1}{N} \sum_{i=1}^N h(x_i^{+}) - \frac{1}{M} \sum_{j=1}^M h(x_j^{-})
 $$
 {% endraw %}
 
-where $h(x)$ is the activation of prompt $x$ at the chosen layer, $x_i^{+}$ are positive prompts, and $x_j^{-}$ are baseline prompts.  
-This vector $v$ represents the “direction” in activation space corresponding to the target attribute ([Meng et al., 2025](https://arxiv.org/abs/2503.09630)).
+where $h(x)$ is the activation of prompt $x$ at the chosen layer, $x_i^{+}$ are positive prompts, and $x_j^{-}$ are baseline prompts. This difference isolates the attribute by cancelling out shared factors, leaving a vector $v$ that points in the direction of “more attribute” in activation space.  
 
-At the end of this process, we obtain steering vectors for each cross-attention layer, shaped as (num diffusion, dim).
+At the end of this process, we obtain steering vectors for each cross-attention layer, shaped as (num diffusion, dim).  
 
 ### 1.4 Applying Steering Vectors
 During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the hidden activations by adding or subtracting a scaled version of $v$:  
