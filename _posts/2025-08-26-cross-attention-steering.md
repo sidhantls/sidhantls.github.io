@@ -211,3 +211,6 @@ Gaintseva, T., Ma, C., Liu, Z., Benning, M., Slabaugh, G., Deng, J., & Elezi, I.
 Demir, E. (2023, August 2). The arrival of SDXL 1.0: Introducing SDXL 1.0: Understanding the diffusion models. Towards Data Science. https://towardsdatascience.com/the-arrival-of-sdxl-1-0-4e739d5cc6c7
 
 Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. arXiv. https://arxiv.org/abs/2006.11239
+
+## Feedback
+Please feel free to reach out to me for feedback, corrections etc.
