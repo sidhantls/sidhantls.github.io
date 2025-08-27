@@ -76,7 +76,7 @@ class SteeringHooks:
       return self.steer_vectors[self.step] + x_seq
 ```
 
-The official implementation is super useful as well, but takes a different approach to collecting activations - they do it by re-writing the cross attention logic and integrating it in, as shown (here)[https://github.com/Atmyre/CASteer/blob/f336576790144ce55fb6afeecf76169374e5c9e4/controller.py#L116]
+The official implementation is super useful as well, but takes a different approach to collecting activations - they do it by re-writing the cross attention logic and integrating it in, as shown [here](https://github.com/Atmyre/CASteer/blob/f336576790144ce55fb6afeecf76169374e5c9e4/controller.py#L116)
 
 ### 2.3 Calculate steering vectors
 After the cache collection step, we'd have two tensors of shape (num prompts, num_diffusion_steps, num_layers, dim): one that has cached activations from the positive attribute and one from the negative. 
