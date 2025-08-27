@@ -5,7 +5,7 @@ title: "Attribute Vector Steering in Stable Diffusion: A Hands-On Guide"
 Controllable image generation with CASteer, from using simple hooks to experiments to improve generation stability.
 ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png)
 
-This post presents a hands-on exploration of attribute steering in Stable Diffusion using CASteer ([Gaintseva et al., 2025](https://arxiv.org/abs/2503.09630)), detailing both implementation steps and experiments. This will go through the underlying implementation details so one can tweak and experiment with the method on their own. It demonstrates how to construct and apply steering vectors, investigates approaches to improve generation stability and efficiency, and composes multiple attributes.
+This post presents a hands-on exploration of attribute steering in Stable Diffusion using CASteer ([Gaintseva et al., 2025](https://arxiv.org/abs/2503.09630)), detailing both implementation steps and experiments. This will go through the underlying implementation details so one can tweak and experiment with the method on their own. It demonstrates how to construct and apply steering vectors, compose multiple attributes, and investigates approaches to improve generation stability and efficiency. 
 
 Accompanying code:
 * [GitHub](https://github.com/sidhantls/minimal-casteer)
