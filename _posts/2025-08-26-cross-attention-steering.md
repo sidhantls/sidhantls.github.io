@@ -87,13 +87,13 @@ v = \frac{1}{N} \sum_{i=1}^N h(x_i^{+}) - \frac{1}{M} \sum_{j=1}^M h(x_j^{-})
 $$
 {% endraw %}
 
-where \(h(x)\) is the activation of prompt \(x\) at the chosen layer, \(x_i^{+}\) are positive prompts, and \(x_j^{-}\) are baseline prompts.  
-This vector \(v\) represents the “direction” in activation space corresponding to the target attribute ([Meng et al., 2025](https://arxiv.org/abs/2503.09630)).
+where $h(x)$ is the activation of prompt $x$ at the chosen layer, $x_i^{+}$ are positive prompts, and $x_j^{-}$ are baseline prompts.  
+This vector $v$ represents the “direction” in activation space corresponding to the target attribute ([Meng et al., 2025](https://arxiv.org/abs/2503.09630)).
 
 At the end of this process, we obtain steering vectors for each cross-attention layer, shaped as (num diffusion, dim).
 
 ### 2.4 Applying Steering Vectors
-During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the hidden activations by adding or subtracting a scaled version of \(v\):  
+During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the hidden activations by adding or subtracting a scaled version of $\(v\)$:  
 {% raw %}
 $$
    h'(x) = h(x) + \alpha v
