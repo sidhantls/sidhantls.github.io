@@ -193,7 +193,7 @@ Motivated by this, I experimented with withholding steering until the 3rd diffus
 </p>
 *Figure 7: Batman close-up using anime steering vector, steering only after first 2 diffusion steps, prompt: “Cinematic close-up of Batman's face, dramatic shadows across the cowl, ultra-detailed, 4K.”*
 
-#### Via Layers Steered
+#### Via Layer Selection
 Apart from addressing stability by delaying the addition of steering vectors, another approach can be to apply steering vectors to only a fraction of the cross-attention layers. Ablation E in the CASteer [paper](https://arxiv.org/pdf/2503.09630) demonstrates that this can be an effective way to target image attributes rather than overall image composition. In particular, they found that applying steering to the last 36 cross-attention layers of SDXL ("up" block layers) strikes a good balance of attribute influence and global image composition. 
 
 Feel free to experiment with this. It'll only require doing an additional check before adding a steering vector hook: [here](https://github.com/sidhantls/minimal-casteer/blob/4ba0cad7b40bb2f5a4790f61959096488840ed2e/steering.py#L107)
@@ -204,7 +204,7 @@ In order to reduce diffusion latency, I explored whether we can leverage diffusi
 
 Experiments revealed that late-stage steering, even with higher strengths, resulted in the same outputs. It appears that without early intervention, such as from the third step in section 4.1, the steering vector’s influence is diminished, limiting its effectiveness in attribute styling.
 
-## 5 Closing Insights:
+## 5 Closing Insights
 * Normalizing steering vectors is crucial to influence the attribute direction. Try experimenting with removing that and renormalization [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L288) and [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L70).
 * Increasing steering strength enhances attributes but may impact global composition. 
 * Applying steering vectors only after the initial two diffusion steps can help maintain the global image structure.
