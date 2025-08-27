@@ -2,13 +2,8 @@
 layout: post
 title: "Attribute Vector Steering in Stable Diffusion: A Hands-On Guide"
 ---
-Controlable image generation with CASteer, from using simple hooks to experiments to improve generation stability.
+Controllable image generation with CASteer, from using simple hooks to experiments to improve generation stability.
 ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png)
-
-<!-- Implementing with CA-Steer: from using simple hooks to experiments to improve generation stability.
-![summary_picture]({{site.baseurl}}/images/lexpod_blog/overview.png) -->
-
-<!-- ![summary_picture]({{site.baseurl}}/images/vector_steering/results/anime_experiments_composition/plots_output/gen_09_comparison.png) -->
 
 This post presents a hands-on exploration of attribute steering in Stable Diffusion using CASteer ([Gaintseva et al., 2025](https://arxiv.org/abs/2503.09630)), detailing both implementation steps and experiments. This will go through the underlying implementation details so one can tweak and experiment with the method on their own. It demonstrates how to construct and apply steering vectors, investigates approaches to improve generation stability and efficiency, and composes multiple attributes.
 
@@ -75,7 +70,7 @@ class SteeringHooks:
       return self.steer_vectors[self.step] + x_seq
 ```
 
-The official implementation is super useful as well, but takes a different approach to collecting activations - they do it by re-writing the cross attention logic and integrating it in, as shown [here](https://github.com/Atmyre/CASteer/blob/f336576790144ce55fb6afeecf76169374e5c9e4/controller.py#L116)
+The official implementation is super useful as well, but takes a different approach to collecting activations - they do it by rewriting the cross attention logic and integrating it in, as shown [here](https://github.com/Atmyre/CASteer/blob/f336576790144ce55fb6afeecf76169374e5c9e4/controller.py#L116)
 
 ### 2.3 Calculate steering vectors
 After the cache collection step, we'd have two tensors of shape (num prompts, num_diffusion_steps, num_layers, dim): one that has cached activations from the positive attribute and one from the negative. 
@@ -100,13 +95,13 @@ $$
 $$
 {% endraw %}
 
-In practice, we perform a re-normalization to ensure we affect only the direction of the vector and not its magnitude, as shown [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L69).
+In practice, we perform a renormalization to ensure we affect only the direction of the vector and not its magnitude, as shown [here](https://github.com/sidhantls/minimal-casteer/blob/main/steering.py#L69).
 
 
 ## 3 Results: 
 ### 3.1 Hyper Parameters: 
 - **Model:** SDXL (`stabilityai/stable-diffusion-xl-base-1.0`)
-- **Number of prompt paidrs:** 20 ([prompts](https://github.com/sidhantls/minimal-casteer/blob/main/prompt_catalog.py))
+- **Number of prompt pairs:** 20 ([prompts](https://github.com/sidhantls/minimal-casteer/blob/main/prompt_catalog.py))
 - **Number of diffusion steps:** 20
 - **Guidance scale:** 5
 - **Seed:** 1
@@ -179,7 +174,7 @@ This approach allows flexible composition of multiple attributes by adjusting `m
 #### Via Diffusion Steps 
 I noticed that quite often the image structure changes, instead of just the attribute, when steering strength increases. This is evident in Figure 2 and arguably also in Figure 3. 
 
-In the diffusion process, Gaussian noise is gradually added until the data are nearly destroyed ([Ho et al., 2020](https://arxiv.org/abs/2006.11239)). This means that the reverse process necessarily reconstructs the global frame before fine-grained attributes. Therefore, early diffusion steps likely generates the structure. 
+In the diffusion process, Gaussian noise is gradually added until the data are nearly destroyed ([Ho et al., 2020](https://arxiv.org/abs/2006.11239)). This means that the reverse process necessarily reconstructs the global frame before fine-grained attributes. Therefore, early diffusion steps likely generate the structure. 
 
 Motivated by this, I experimented with withholding steering until the 3rd diffusion step, to better preserve the original structure. This approach may require adjusting the steering strength. As shown in Figures 2 and 3, delaying steering helps maintain the initial composition more effectively compared to Figures 6 and 7.
 
@@ -200,7 +195,7 @@ Feel free to experiment with this. It'll only require doing an additional check 
 
 
 ### 4.2 Improving Efficiency
-In order to reduce diffusion latency, I explored whether we can leverage diffusion replay caching. In this, we can iterate on the image for the first N/2 diffusion steps and only then apply the steering vector. If this works, then for an adaptive use-case, where we need to run multiple versions of the image with different strengths, we can re-use the diffusion output of the N/2th step and then, as the strength changes, we only perform N/2 diffusion steps instead of N. This can improve diffusion latency by 50%, compared to running all N steps with the updated strength. 
+In order to reduce diffusion latency, I explored whether we can leverage diffusion replay caching. In this, we can iterate on the image for the first N/2 diffusion steps and only then apply the steering vector. If this works, then for an adaptive use-case, where we need to run multiple versions of the image with different strengths, we can reuse the diffusion output of the N/2th step and then, as the strength changes, we only perform N/2 diffusion steps instead of N. This can improve diffusion latency by 50%, compared to running all N steps with the updated strength. 
 
 Experiments revealed that late-stage steering, even with higher strengths, resulted in the same outputs. It appears that without early intervention, such as from the third step in section 4.1, the steering vector’s influence is diminished, limiting its effectiveness in attribute styling.
 
