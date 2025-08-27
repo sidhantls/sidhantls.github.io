@@ -213,4 +213,4 @@ Demir, E. (2023, August 2). The arrival of SDXL 1.0: Introducing SDXL 1.0: Under
 Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. arXiv. https://arxiv.org/abs/2006.11239
 
 ## Feedback
-Please feel free to reach out to me for feedback, corrections etc.
+Please feel free to reach out to me for feedback, corrections, etc.
