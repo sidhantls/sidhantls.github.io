@@ -95,14 +95,14 @@ v = \frac{1}{N} \sum_{i=1}^N h(x_i^{+}) - \frac{1}{M} \sum_{j=1}^M h(x_j^{-})
 $$
 {% endraw %}
 
-where $h(x)$ is the activation of prompt $x$ at the chosen layer, $x_i^{+}$ are positive prompts, and $x_j^{-}$ are baseline prompts. This difference isolates the attribute by cancelling out shared factors, leaving a vector $v$ that points in the direction of “more attribute” in activation space.  
+where \(h(x)\) is the activation of prompt \(x\) at the chosen layer, \(x_i^{+}\) are positive prompts, and \(x_j^{-}\) are baseline prompts. This difference isolates the attribute by cancelling out shared factors, leaving a vector \(v\) that points in the direction of “more attribute” in activation space.
 
 At the end of this process, we obtain steering vectors for each cross-attention layer, shaped as (num diffusion, dim).  
 
 ### 1.4 Applying Steering Vectors
 Now that we have a vector capturing the “direction” of the attribute, the idea is to guide the model during generation by nudging its hidden states along that direction. Pushing in the positive direction strengthens the attribute, while pushing in the negative direction suppresses it.  
 
-During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the cross-attention activations by adding or subtracting a scaled version of $v$:  
+During inference, the hook can be configured to inject the appropriate steering vector at each diffusion timestep. At each forward pass, we adjust the cross-attention activations by adding or subtracting a scaled version of \(v\):
 {% raw %}
 $$
    h'(x) = h(x) + \alpha v
