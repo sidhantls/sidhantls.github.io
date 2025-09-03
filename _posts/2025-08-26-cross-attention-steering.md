@@ -67,6 +67,12 @@ class SteeringHooks:
     self.step = 0 # current diffusion step
 
   def hook_fn(self, module, inputs, x_seq):
+    """
+    Parameters:
+    - module: The torch module (e.g., a linear or attention layer) where the hook is registered.
+    - inputs: The input tensors passed into this module during the forward pass.
+    - x_seq: The output tensor from this module. In cache mode, we record x_seq for later analysis and return it unchanged. When applying steering, we modify x_seq by adding the steering vector and return the adjusted output.
+    """
     self.step += 1
     if self.in_cache_collection_mode:  # collect activations
       self.cache.append(x_seq[1, :, :].mean(0).detach().cpu()[None, None, :])
