@@ -283,6 +283,52 @@ footer {
   text-align: center;
 }
 
+//
+// .pub (Research page)
+//
+
+.pub {
+  padding-bottom: 2em;
+  margin-bottom: 2em;
+  border-bottom: 1px solid $lightGray;
+
+  &:last-child {
+    padding-bottom: 1em;
+    border-bottom: none;
+  }
+}
+
+.pub-meta {
+  color: $gray;
+  font-size: 16px;
+}
+
+.pub-links a {
+  margin-right: 4px;
+}
+
+.pub-figure {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 800px;
+  cursor: zoom-in;
+}
+
+details {
+  margin: 15px 0;
+}
+
+details summary {
+  cursor: pointer;
+  color: $blue;
+  font-size: 16px;
+}
+
+details[open] summary {
+  margin-bottom: 10px;
+}
+
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
